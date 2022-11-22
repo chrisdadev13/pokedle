@@ -1,5 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const bounce = keyframes`
+  0%{
+    opacity: 0;
+    transform: scale(0.3) translate3d(0,0,0);
+  }
+  50%{
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  80%{
+    opacity: 1;
+    transform: scale(0.89);
+  }
+  100%{
+    opacity: 1;
+    transform: scale(1) translate3d(0,0,0);
+  }
+}
+
+`;
 
 const Tile = styled.div`
   background-color: #fbfcff;
@@ -7,13 +28,14 @@ const Tile = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid ${(props) => (props.letter == "" ? "#dee1e9" : "#a7adc0")};
+  border: 2px solid ${(props) => (props.letter === "" ? "#dee1e9" : "#a7adc0")};
   border-radius: 5px;
   text-transform: uppercase;
   width: 56px;
   height: 56px;
   font-size: 28px;
   font-weidght: 700;
+  animation: ${(props) => (props.letter !== "" ? bounce : "")} 0.25s linear;
 `;
 
 const TilesContainer = styled.div`
