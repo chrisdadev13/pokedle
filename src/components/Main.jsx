@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TilesGrid from "./Game/TilesGrid";
+import KeysGrid from "./Keyboard/KeysGrid";
 
 const GameContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const KeyboardContainer = styled.div`
+  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,6 +22,11 @@ const GameContainer = styled.div`
 const Main = () => {
   const TRIES = 6;
   const ID = Math.trunc(Math.random() * (900 - 1) + 1);
+  const KEYBOARD = [
+    ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+    ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+    ["backspace", "z", "x", "c", "v", "b", "n", "m", "enter"],
+  ];
 
   const [name, setName] = useState([]);
   const [difficulty, setDifficulty] = useState(5);
@@ -24,6 +38,8 @@ const Main = () => {
     4: Array.from({ length: difficulty }).fill(""),
     5: Array.from({ length: difficulty }).fill(""),
   });
+  const [currentCol, setCol] = useState(0);
+  const [currentRow, setRow] = useState(0);
 
   useEffect(() => {
     if (name.length !== difficulty)
@@ -33,9 +49,14 @@ const Main = () => {
   });
 
   return (
-    <GameContainer>
-      <TilesGrid tries={6} tiles={tiles} wordLength={difficulty} />
-    </GameContainer>
+    <>
+      <GameContainer>
+        <TilesGrid tries={6} tiles={tiles} wordLength={difficulty} />
+      </GameContainer>
+      <KeyboardContainer>
+        <KeysGrid keyboard={KEYBOARD} />
+      </KeyboardContainer>
+    </>
   );
 };
 
