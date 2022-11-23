@@ -29,8 +29,22 @@ const Main = () => {
   ];
 
   const [name, setName] = useState([]);
+
   const [difficulty, setDifficulty] = useState(5);
+
   const [tiles, setTile] = useState({
+    0: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    1: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    2: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    3: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    4: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    5: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+  });
+
+  const [currentCol, setCol] = useState(0);
+  const [currentRow, setRow] = useState(0);
+
+  const [userPlay, setPlay] = useState({
     0: Array.from({ length: difficulty }).fill(""),
     1: Array.from({ length: difficulty }).fill(""),
     2: Array.from({ length: difficulty }).fill(""),
@@ -38,8 +52,17 @@ const Main = () => {
     4: Array.from({ length: difficulty }).fill(""),
     5: Array.from({ length: difficulty }).fill(""),
   });
-  const [currentCol, setCol] = useState(0);
-  const [currentRow, setRow] = useState(0);
+
+  function handleKeyClick(event) {
+    const letter = event.target.id;
+    if (letter !== "backspace" && letter !== "enter") {
+      setTile((prev) => {
+        const current = { ...prev };
+        console.log(current);
+        return current;
+      });
+    }
+  }
 
   useEffect(() => {
     if (name.length !== difficulty)
@@ -54,7 +77,7 @@ const Main = () => {
         <TilesGrid tries={6} tiles={tiles} wordLength={difficulty} />
       </GameContainer>
       <KeyboardContainer>
-        <KeysGrid keyboard={KEYBOARD} />
+        <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
       </KeyboardContainer>
     </>
   );

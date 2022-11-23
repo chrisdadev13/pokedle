@@ -54,8 +54,8 @@ const TilesGrid = ({ tries, tiles, wordLength }) => {
       {[0, 1, 2, 3, 4, 5].map((rows) => (
         <React.Fragment key={rows}>
           {[0, 1, 2, 3, 4].map((cols) => (
-            <Tile key={cols} letter={tiles[rows][cols]}>
-              {tiles[rows][cols]}
+            <Tile key={cols} letter={tiles[rows][cols].space}>
+              {tiles[rows][cols].space}
             </Tile>
           ))}
         </React.Fragment>

@@ -18,22 +18,22 @@ const KeysGrid = ({ keyboard, onClick }) => {
   return (
     <Keyboard>
       <KeyboardRow>
-        {keyboard[0].map((tile) => (
-          <KeyBtn onClick={onClick} keyboardTile={tile}>
+        {keyboard[0].map((tile, i) => (
+          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
             {tile}
           </KeyBtn>
         ))}
       </KeyboardRow>
       <KeyboardRow>
-        {keyboard[1].map((tile) => (
-          <KeyBtn onClick={onClick} keyboardTile={tile}>
+        {keyboard[1].map((tile, i) => (
+          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
             {tile}
           </KeyBtn>
         ))}
       </KeyboardRow>
       <KeyboardRow>
-        {keyboard[2].map((tile) => (
-          <KeyBtn onClick={onClick} keyboardTile={tile}>
+        {keyboard[2].map((tile, i) => (
+          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
             {tile}
           </KeyBtn>
         ))}
