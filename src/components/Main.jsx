@@ -32,43 +32,65 @@ const Main = () => {
 
   const [difficulty, setDifficulty] = useState(5);
 
-  const [tiles, setTile] = useState({
-    0: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-    1: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-    2: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-    3: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-    4: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-    5: Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
-  });
+  const [tiles, setTile] = useState([
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+    Array.from({ length: difficulty }).fill({ space: "", status: "neutro" }),
+  ]);
 
   const [currentCol, setCol] = useState(0);
   const [currentRow, setRow] = useState(0);
 
-  const [userPlay, setPlay] = useState({
-    0: Array.from({ length: difficulty }).fill(""),
-    1: Array.from({ length: difficulty }).fill(""),
-    2: Array.from({ length: difficulty }).fill(""),
-    3: Array.from({ length: difficulty }).fill(""),
-    4: Array.from({ length: difficulty }).fill(""),
-    5: Array.from({ length: difficulty }).fill(""),
-  });
+  const [userPlay, setPlay] = useState(
+    Array.from({ length: difficulty }).fill("")
+  );
 
   function handleKeyClick(event) {
     const letter = event.target.id;
-    if (letter !== "backspace" && letter !== "enter") {
-      setTile((prev) => {
-        const current = { ...prev };
-        console.log(current);
-        return current;
-      });
+    if (letter !== "backspace" && letter !== "enter" && currentCol < 5) {
+      setTile((prev) =>
+        prev.map((arr, i) => {
+          if (i !== currentRow) return arr;
+          return arr.map((_tile, index) => {
+            if (index !== currentCol) return _tile;
+            const newTile = structuredClone(_tile);
+            newTile.space = letter;
+            return newTile;
+          });
+        })
+      );
+
+      setCol(currentCol + 1);
+    } else if (letter === "enter" && currentCol > 4) {
+      createParallel();
+      setRow(currentRow + 1);
+      setCol(currentCol - 5);
     }
   }
+
+  function createParallel() {
+    setPlay((prev) =>
+      prev.map((arr, i) => {
+        const _play = structuredClone(tiles[currentRow][i].space);
+        return _play;
+      })
+    );
+  }
+
+  function evaluateParallels() {}
+
+  useEffect(() => {
+    console.log(userPlay);
+  }, [userPlay]);
 
   useEffect(() => {
     if (name.length !== difficulty)
       fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`)
         .then((res) => res.json())
-        .then((data) => setName(data.name.toUpperCase().split("")));
+        .then((data) => setName(data.name.toLowerCase().split("")));
   });
 
   return (
