@@ -120,7 +120,7 @@ const Main = () => {
   return (
     <>
       <GameContainer>
-        <TilesGrid tries={6} tiles={tiles} wordLength={difficulty} />
+        <TilesGrid tiles={tiles} difficulty={difficulty} />
       </GameContainer>
       <KeyboardContainer>
         <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />

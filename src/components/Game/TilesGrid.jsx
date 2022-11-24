@@ -65,21 +65,25 @@ const Tile = styled.div`
 `;
 
 const TilesContainer = styled.div`
-  width: 17vw;
   height: 42vh;
   display: grid;
   grid-template-columns: repeat(${(props) => props.cols}, 1fr);
   grid-template-rows: repeat(6, 1fr);
-  grid-column-gap: 0px;
+  align-content: center;
+  grid-column-gap: 5px;
   grid-row-gap: 0px;
 `;
 
-const TilesGrid = ({ tries, tiles, wordLength }) => {
+const TilesGrid = ({ tiles, difficulty }) => {
+  let cols = [];
+  for (let i = 0; i < difficulty; i++) {
+    cols.push(i);
+  }
   return (
-    <TilesContainer cols={wordLength}>
+    <TilesContainer cols={difficulty}>
       {[0, 1, 2, 3, 4, 5].map((rows) => (
         <React.Fragment key={rows}>
-          {[0, 1, 2, 3, 4].map((cols) => (
+          {cols.map((cols) => (
             <Tile
               key={cols}
               status={tiles[rows][cols].status}
