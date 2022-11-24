@@ -23,7 +23,31 @@ const bounce = keyframes`
 `;
 
 const Tile = styled.div`
-  background-color: #fbfcff;
+  ${(props) => {
+    if (props.status === "neutro") {
+      return `
+      background-color: #fbfcff;
+    `;
+    } else if (props.status === "elsewhere") {
+      return `
+        background-color: #f3c237;
+        border: 2px solid #f3c237 !important;
+        color: white !important;
+    `;
+    } else if (props.status === "guessed") {
+      return `
+        background-color: #79b851; 
+        border: 2px solid #79b851 !important;
+        color: white !important;
+    `;
+    } else {
+      return `
+        background-color: #a4aec4 !important;
+        border: 2px solid #a4aec4 !important;
+        color: white !important;
+      `;
+    }
+  }}
   color: #393e4c;
   display: flex;
   justify-content: center;
@@ -35,7 +59,9 @@ const Tile = styled.div`
   height: 56px;
   font-size: 28px;
   font-weidght: 700;
-  animation: ${(props) => (props.letter !== "" ? bounce : "")} 0.25s linear;
+  animation: ${(props) =>
+      props.letter !== "" || props.status !== "neutro" ? bounce : ""}
+    0.25s linear;
 `;
 
 const TilesContainer = styled.div`
@@ -54,7 +80,11 @@ const TilesGrid = ({ tries, tiles, wordLength }) => {
       {[0, 1, 2, 3, 4, 5].map((rows) => (
         <React.Fragment key={rows}>
           {[0, 1, 2, 3, 4].map((cols) => (
-            <Tile key={cols} letter={tiles[rows][cols].space}>
+            <Tile
+              key={cols}
+              status={tiles[rows][cols].status}
+              letter={tiles[rows][cols].space}
+            >
               {tiles[rows][cols].space}
             </Tile>
           ))}

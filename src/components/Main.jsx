@@ -44,6 +44,8 @@ const Main = () => {
   const [currentCol, setCol] = useState(0);
   const [currentRow, setRow] = useState(0);
 
+  const [gameOver, setGameOver] = useState(false);
+
   const [userPlay, setPlay] = useState(
     Array.from({ length: difficulty }).fill("")
   );
@@ -66,6 +68,7 @@ const Main = () => {
       setCol(currentCol + 1);
     } else if (letter === "enter" && currentCol > 4) {
       createParallel();
+      evaluateParallels();
       setRow(currentRow + 1);
       setCol(currentCol - 5);
     }
@@ -80,11 +83,32 @@ const Main = () => {
     );
   }
 
-  function evaluateParallels() {}
+  function changeStatus(letter, name, tiles, index, row) {
+    if (name.some((n) => n === letter)) {
+      const direction = name.findIndex((n) => n === letter);
+      if (direction === index) {
+        return (tiles[row][index].status = "guessed");
+      } else {
+        return (tiles[row][index].status = "elsewhere");
+      }
+    } else {
+      return (tiles[row][index].status = "fail");
+    }
+  }
+
+  function evaluateParallels() {
+    setPlay((prev) =>
+      prev.map((arr, i) => {
+        const _play = structuredClone(tiles[currentRow][i].space);
+        changeStatus(_play, name, tiles, i, currentRow);
+        return _play;
+      })
+    );
+  }
 
   useEffect(() => {
-    console.log(userPlay);
-  }, [userPlay]);
+    console.log(name);
+  }, [name]);
 
   useEffect(() => {
     if (name.length !== difficulty)
