@@ -3,15 +3,21 @@ import styled from "styled-components";
 import KeyBtn from "./KeyBtn";
 
 const Keyboard = styled.div`
-  width: 30vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center; ;
 `;
 
 const KeyboardRow = styled.div`
   display: flex;
   justify-content: stretch;
   flex-direction: row;
-  width: 100%;
+  width: 100vw;
   height: 6.5vh;
+
+  @media only screen and (min-width: 900px) {
+    width: 30vw;
+  }
 `;
 
 const KeysGrid = ({ keyboard, onClick }) => {

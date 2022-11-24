@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TilesGrid from "./Game/TilesGrid";
 import KeysGrid from "./Keyboard/KeysGrid";
 import Header from "./Header";
+import Confetti from "react-confetti";
 
 const GameContainer = styled.div`
   width: 100vw;
@@ -14,10 +15,10 @@ const GameContainer = styled.div`
 `;
 
 const KeyboardContainer = styled.div`
-  width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100vw;
 `;
 
 const HeaderContainer = styled.div`
@@ -108,6 +109,8 @@ const Main = () => {
       prev.map((arr, i) => {
         const _play = structuredClone(tiles[currentRow][i].space);
         changeStatus(_play, name, tiles, i, currentRow);
+        if (tiles[currentRow].every((n) => n.status === "guessed"))
+          setGameOver(true);
         return _play;
       })
     );
@@ -137,6 +140,8 @@ const Main = () => {
       <KeyboardContainer>
         <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
       </KeyboardContainer>
+
+      {gameOver === true && <Confetti width={2000} height={1000} />}
     </>
   );
 };
