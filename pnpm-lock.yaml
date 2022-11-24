@@ -5,6 +5,7 @@ specifiers:
   '@testing-library/react': ^13.4.0
   '@testing-library/user-event': ^14.4.3
   react: ^18.2.0
+  react-confetti: ^6.1.0
   react-dom: ^18.2.0
   react-icons: ^4.6.0
   react-scripts: 5.0.1
@@ -16,6 +17,7 @@ dependencies:
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@testing-library/user-event': 14.4.3
   react: 18.2.0
+  react-confetti: 6.1.0_react@18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-icons: 4.6.0_react@18.2.0
   react-scripts: 5.0.1_react@18.2.0
@@ -8253,6 +8255,16 @@ packages:
       whatwg-fetch: 3.6.2
     dev: false
 
+  /react-confetti/6.1.0_react@18.2.0:
+    resolution: {integrity: sha512-7Ypx4vz0+g8ECVxr88W9zhcQpbeujJAVqL14ZnXJ3I23mOI9/oBVTQ3dkJhUmB0D6XOtCZEM6N0Gm9PMngkORw==}
+    engines: {node: '>=10.18'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      tween-functions: 1.2.0
+    dev: false
+
   /react-dev-utils/12.0.1_5mastfusvewdnfotkrq73j4uja:
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}
     engines: {node: '>=14'}
@@ -9468,6 +9480,10 @@ packages:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
+    dev: false
+
+  /tween-functions/1.2.0:
+    resolution: {integrity: sha512-PZBtLYcCLtEcjL14Fzb1gSxPBeL7nWvGhO5ZFPGqziCcr8uvHp0NDmdjBchp6KHL+tExcg0m3NISmKxhU394dA==}
     dev: false
 
   /type-check/0.3.2:
