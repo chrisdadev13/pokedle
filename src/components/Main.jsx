@@ -4,6 +4,7 @@ import TilesGrid from "./Game/TilesGrid";
 import KeysGrid from "./Keyboard/KeysGrid";
 import Header from "./Header";
 import Confetti from "react-confetti";
+import ChargingModal from "./ChargingModal";
 
 const GameContainer = styled.div`
   width: 100vw;
@@ -15,13 +16,6 @@ const GameContainer = styled.div`
 `;
 
 const KeyboardContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-`;
-
-const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,6 +47,7 @@ const Main = () => {
   const [currentCol, setCol] = useState(0);
   const [currentRow, setRow] = useState(0);
 
+  const [winner, setWinner] = useState(false);
   const [gameOver, setGameOver] = useState(false);
 
   const [userPlay, setPlay] = useState(
@@ -109,8 +104,10 @@ const Main = () => {
       prev.map((arr, i) => {
         const _play = structuredClone(tiles[currentRow][i].space);
         changeStatus(_play, name, tiles, i, currentRow);
-        if (tiles[currentRow].every((n) => n.status === "guessed"))
+        if (tiles[currentRow].every((n) => n.status === "guessed")) {
+          setWinner(true);
           setGameOver(true);
+        }
         return _play;
       })
     );
@@ -122,10 +119,6 @@ const Main = () => {
   }
 
   useEffect(() => {
-    console.log(name);
-  }, [name]);
-
-  useEffect(() => {
     if (name.length !== difficulty)
       fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`)
         .then((res) => res.json())
@@ -134,14 +127,20 @@ const Main = () => {
 
   return (
     <>
-      <GameContainer>
-        <TilesGrid tiles={tiles} difficulty={difficulty} />
-      </GameContainer>
-      <KeyboardContainer>
-        <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
-      </KeyboardContainer>
+      {name.length !== difficulty ? (
+        <ChargingModal />
+      ) : (
+        <>
+          <GameContainer>
+            <TilesGrid tiles={tiles} difficulty={difficulty} />
+          </GameContainer>
+          <KeyboardContainer>
+            <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
+          </KeyboardContainer>
+        </>
+      )}
 
-      {gameOver === true && <Confetti width={2000} height={1000} />}
+      {winner === true && <Confetti width={2000} height={1000} />}
     </>
   );
 };
