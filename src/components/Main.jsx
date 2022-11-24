@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TilesGrid from "./Game/TilesGrid";
 import KeysGrid from "./Keyboard/KeysGrid";
+import Header from "./Header";
 
 const GameContainer = styled.div`
   width: 100vw;
@@ -17,6 +18,13 @@ const KeyboardContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
 `;
 
 const Main = () => {
@@ -67,8 +75,7 @@ const Main = () => {
 
       setCol(currentCol + 1);
     } else if (letter === "enter" && currentCol > 4) {
-      createParallel();
-      evaluateParallels();
+      handleEnter();
       setRow(currentRow + 1);
       setCol(currentCol - 5);
     }
@@ -104,6 +111,11 @@ const Main = () => {
         return _play;
       })
     );
+  }
+
+  function handleEnter() {
+    createParallel();
+    evaluateParallels();
   }
 
   useEffect(() => {
