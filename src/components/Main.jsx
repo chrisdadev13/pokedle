@@ -27,7 +27,7 @@ const Main = () => {
   const ID = Math.trunc(Math.random() * (900 - 1) + 1);
   const KEYBOARD = [
     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-    ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+    ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ñ"],
     ["backspace", "z", "x", "c", "v", "b", "n", "m", "enter"],
   ];
 
