@@ -14,9 +14,10 @@ const KeyboardRow = styled.div`
   flex-direction: row;
   width: 100vw;
   height: 6.5vh;
+  margin: 2px 0;
 
-  @media only screen and (min-width: 900px) {
-    width: 30vw;
+  @media only screen and (min-width: 1100px) {
+    width: 35vw;
   }
 `;
 

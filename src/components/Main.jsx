@@ -4,7 +4,8 @@ import TilesGrid from "./Game/TilesGrid";
 import KeysGrid from "./Keyboard/KeysGrid";
 import Header from "./Header";
 import Confetti from "react-confetti";
-import ChargingModal from "./ChargingModal";
+import ChargingModal from "./modals/ChargingModal";
+import FinalMessage from "./utils/FinalMessage";
 
 const GameContainer = styled.div`
   width: 100vw;
@@ -84,6 +85,20 @@ const Main = () => {
       handleEnter();
       setRow(currentRow + 1);
       setCol(currentCol - 5);
+      if (currentRow === 5) setGameOver(true);
+    } else if (letter === "backspace" && currentCol >= 0) {
+      setTile((prev) =>
+        prev.map((arr, i) => {
+          if (i !== currentRow) return arr;
+          return arr.map((_tile, index) => {
+            if (index !== currentCol) return _tile;
+            const newTile = structuredClone(_tile);
+            newTile.space = "";
+            return newTile;
+          });
+        })
+      );
+      setCol(currentCol >= 0 ? currentCol - 1 : (currentCol = currentCol));
     }
   }
 
@@ -136,7 +151,6 @@ const Main = () => {
       fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`)
         .then((res) => res.json())
         .then((data) => setName(data.name.toLowerCase().split("")));
-    console.log(name);
   });
 
   return (
@@ -145,9 +159,18 @@ const Main = () => {
         <ChargingModal />
       ) : (
         <>
+          <Header />
           <GameContainer>
             <TilesGrid tiles={tiles} difficulty={difficulty} />
           </GameContainer>
+          {gameOver === true ? (
+            <FinalMessage
+              onClick={() => window.location.reload()}
+              result={winner}
+            />
+          ) : (
+            ""
+          )}
           <KeyboardContainer>
             <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
           </KeyboardContainer>
