@@ -10,6 +10,7 @@ const ModalContainer = styled.div`
   width: 100vw;
   margin-top: 20px;
   height: 50vh;
+  font-family: Monserrat, Open Sans, sans-serif;
 `;
 
 const ModalContent = styled.div`
