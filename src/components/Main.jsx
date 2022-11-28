@@ -56,7 +56,12 @@ const Main = () => {
 
   function handleKeyClick(event) {
     const letter = event.target.id;
-    if (letter !== "backspace" && letter !== "enter" && currentCol < 5) {
+    if (
+      letter !== "backspace" &&
+      letter !== "enter" &&
+      currentCol < 5 &&
+      winner === false
+    ) {
       setTile((prev) =>
         prev.map((arr, i) => {
           if (i !== currentRow) return arr;
@@ -70,7 +75,12 @@ const Main = () => {
       );
 
       setCol(currentCol + 1);
-    } else if (letter === "enter" && currentCol > 4) {
+    } else if (
+      letter === "enter" &&
+      currentCol > 4 &&
+      currentRow < 6 &&
+      winner === false
+    ) {
       handleEnter();
       setRow(currentRow + 1);
       setCol(currentCol - 5);
@@ -89,7 +99,10 @@ const Main = () => {
   function changeStatus(letter, name, tiles, index, row) {
     if (name.some((n) => n === letter)) {
       const direction = name.findIndex((n) => n === letter);
-      if (direction === index) {
+      if (
+        direction === index ||
+        name.findIndex((n, i) => n === letter && i !== direction) === index
+      ) {
         return (tiles[row][index].status = "guessed");
       } else {
         return (tiles[row][index].status = "elsewhere");
@@ -123,6 +136,7 @@ const Main = () => {
       fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`)
         .then((res) => res.json())
         .then((data) => setName(data.name.toLowerCase().split("")));
+    console.log(name);
   });
 
   return (
