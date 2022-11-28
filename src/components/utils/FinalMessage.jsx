@@ -23,9 +23,9 @@ const FinalMessage = ({ result, onClick }) => {
   return (
     <>
       {result === true ? (
-        <Message onClick={onClick}>¡Ganaste! 🏆</Message>
+        <Message onClick={onClick}>¡You're the winner! 🏆</Message>
       ) : (
-        <Message onClick={onClick}>Perdiste, intenta de nuevo</Message>
+        <Message onClick={onClick}>You lose, try again</Message>
       )}
     </>
   );
