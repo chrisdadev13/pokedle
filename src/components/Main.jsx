@@ -32,6 +32,8 @@ const Main = () => {
     ["backspace", "z", "x", "c", "v", "b", "n", "m", "enter"],
   ];
 
+  const [guessed, setGuessed] = useState([]);
+  const [elsewhere, setElsewhere] = useState([]);
   const [name, setName] = useState([]);
 
   const [difficulty, setDifficulty] = useState(5);
@@ -55,6 +57,37 @@ const Main = () => {
     Array.from({ length: difficulty }).fill("")
   );
 
+  const addLetter = (letter) => {
+    setTile((prev) =>
+      prev.map((arr, i) => {
+        if (i !== currentRow) return arr;
+        return arr.map((_tile, index) => {
+          if (index !== currentCol) return _tile;
+          const newTile = structuredClone(_tile);
+          newTile.space = letter;
+          return newTile;
+        });
+      })
+    );
+
+    setCol(currentCol + 1);
+  };
+
+  const removeLetter = (letter) => {
+    setTile((prev) =>
+      prev.map((arr, i) => {
+        if (i !== currentRow) return arr;
+        return arr.map((_tile, index) => {
+          if (index !== currentCol) return _tile;
+          const newTile = structuredClone(_tile);
+          newTile.space = "";
+          return newTile;
+        });
+      })
+    );
+    setCol(currentCol >= 0 ? currentCol - 1 : (currentCol = currentCol));
+  };
+
   function handleKeyClick(event) {
     const letter = event.target.id;
     if (
@@ -63,19 +96,7 @@ const Main = () => {
       currentCol < 5 &&
       winner === false
     ) {
-      setTile((prev) =>
-        prev.map((arr, i) => {
-          if (i !== currentRow) return arr;
-          return arr.map((_tile, index) => {
-            if (index !== currentCol) return _tile;
-            const newTile = structuredClone(_tile);
-            newTile.space = letter;
-            return newTile;
-          });
-        })
-      );
-
-      setCol(currentCol + 1);
+      addLetter(letter);
     } else if (
       letter === "enter" &&
       currentCol > 4 &&
@@ -83,22 +104,9 @@ const Main = () => {
       winner === false
     ) {
       handleEnter();
-      setRow(currentRow + 1);
-      setCol(currentCol - 5);
       if (currentRow === 5) setGameOver(true);
     } else if (letter === "backspace" && currentCol >= 0) {
-      setTile((prev) =>
-        prev.map((arr, i) => {
-          if (i !== currentRow) return arr;
-          return arr.map((_tile, index) => {
-            if (index !== currentCol) return _tile;
-            const newTile = structuredClone(_tile);
-            newTile.space = "";
-            return newTile;
-          });
-        })
-      );
-      setCol(currentCol >= 0 ? currentCol - 1 : (currentCol = currentCol));
+      removeLetter(letter);
     }
   }
 
@@ -144,6 +152,8 @@ const Main = () => {
   function handleEnter() {
     createParallel();
     evaluateParallels();
+    setRow(currentRow + 1);
+    setCol(currentCol - 5);
   }
 
   useEffect(() => {
