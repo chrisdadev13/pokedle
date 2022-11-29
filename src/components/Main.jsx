@@ -32,9 +32,8 @@ const Main = () => {
     ["backspace", "z", "x", "c", "v", "b", "n", "m", "enter"],
   ];
 
-  const [guessed, setGuessed] = useState([]);
-  const [elsewhere, setElsewhere] = useState([]);
   const [name, setName] = useState([]);
+  const [playable, setPlayable] = useState(false);
 
   const [difficulty, setDifficulty] = useState(5);
 
@@ -163,6 +162,26 @@ const Main = () => {
     evaluateParallels();
     setRow(currentRow + 1);
     setCol(currentCol - 5);
+    if (currentRow === 5) setGameOver(true);
+  };
+
+  const isValidKeyDown = (keyPressed) => {
+    if (KEYBOARD[0].some((n) => n === keyPressed)) return true;
+    if (KEYBOARD[1].some((n) => n === keyPressed)) return true;
+    if (KEYBOARD[2].some((n) => n === keyPressed)) return true;
+  };
+
+  const handleKeyDown = (event) => {
+    let keyPressed = event.key.toLowerCase();
+    if (isValidKeyDown(keyPressed)) {
+      if (isValidLetter(keyPressed)) {
+        addLetter(keyPressed);
+      } else if (isValidEnter(keyPressed)) {
+        handleEnter();
+      } else if (isValidBackspace(keyPressed)) {
+        removeLetter();
+      }
+    }
   };
 
   useEffect(() => {
@@ -170,6 +189,13 @@ const Main = () => {
       fetch(`https://pokeapi.co/api/v2/pokemon/${ID}`)
         .then((res) => res.json())
         .then((data) => setName(data.name.toLowerCase().split("")));
+  });
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   });
 
   return (
