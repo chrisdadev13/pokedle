@@ -73,7 +73,7 @@ const Main = () => {
     setCol(currentCol + 1);
   };
 
-  const removeLetter = (letter) => {
+  const removeLetter = () => {
     setTile((prev) =>
       prev.map((arr, i) => {
         if (i !== currentRow) return arr;
@@ -88,38 +88,47 @@ const Main = () => {
     setCol(currentCol >= 0 ? currentCol - 1 : (currentCol = currentCol));
   };
 
-  function handleKeyClick(event) {
-    const letter = event.target.id;
-    if (
-      letter !== "backspace" &&
-      letter !== "enter" &&
+  const isValidLetter = (key) => {
+    return (
+      key !== "backspace" &&
+      key !== "enter" &&
       currentCol < 5 &&
       winner === false
-    ) {
+    );
+  };
+
+  const isValidEnter = (key) => {
+    return (
+      key === "enter" && currentCol > 4 && currentRow < 6 && winner === false
+    );
+  };
+
+  const isValidBackspace = (key) => {
+    return key === "backspace" && currentCol >= 0;
+  };
+
+  const handleKeyClick = (event) => {
+    const letter = event.target.id;
+    if (isValidLetter(letter)) {
       addLetter(letter);
-    } else if (
-      letter === "enter" &&
-      currentCol > 4 &&
-      currentRow < 6 &&
-      winner === false
-    ) {
+    } else if (isValidEnter(letter)) {
       handleEnter();
       if (currentRow === 5) setGameOver(true);
-    } else if (letter === "backspace" && currentCol >= 0) {
+    } else if (isValidBackspace(letter)) {
       removeLetter(letter);
     }
-  }
+  };
 
-  function createParallel() {
+  const createParallel = () => {
     setPlay((prev) =>
       prev.map((arr, i) => {
         const _play = structuredClone(tiles[currentRow][i].space);
         return _play;
       })
     );
-  }
+  };
 
-  function changeStatus(letter, name, tiles, index, row) {
+  const changeStatus = (letter, name, tiles, index, row) => {
     if (name.some((n) => n === letter)) {
       const direction = name.findIndex((n) => n === letter);
       if (
@@ -133,9 +142,9 @@ const Main = () => {
     } else {
       return (tiles[row][index].status = "fail");
     }
-  }
+  };
 
-  function evaluateParallels() {
+  const evaluateParallels = () => {
     setPlay((prev) =>
       prev.map((arr, i) => {
         const _play = structuredClone(tiles[currentRow][i].space);
@@ -147,14 +156,14 @@ const Main = () => {
         return _play;
       })
     );
-  }
+  };
 
-  function handleEnter() {
+  const handleEnter = () => {
     createParallel();
     evaluateParallels();
     setRow(currentRow + 1);
     setCol(currentCol - 5);
-  }
+  };
 
   useEffect(() => {
     if (name.length !== difficulty)
