@@ -21,26 +21,53 @@ const KeyboardRow = styled.div`
   }
 `;
 
-const KeysGrid = ({ keyboard, onClick }) => {
+const KeysGrid = ({
+  keyboard,
+  onClick,
+  guessedData,
+  elsewhereData,
+  failedData,
+}) => {
   return (
     <Keyboard>
       <KeyboardRow>
         {keyboard[0].map((tile, i) => (
-          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
+          <KeyBtn
+            onClick={onClick}
+            key={i}
+            guessedArr={guessedData}
+            elsewhereArr={elsewhereData}
+            failedArr={failedData}
+            keyboardTile={tile}
+          >
             {tile}
           </KeyBtn>
         ))}
       </KeyboardRow>
       <KeyboardRow>
         {keyboard[1].map((tile, i) => (
-          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
+          <KeyBtn
+            onClick={onClick}
+            key={i}
+            guessedArr={guessedData}
+            elsewhereArr={elsewhereData}
+            failedArr={failedData}
+            keyboardTile={tile}
+          >
             {tile}
           </KeyBtn>
         ))}
       </KeyboardRow>
       <KeyboardRow>
         {keyboard[2].map((tile, i) => (
-          <KeyBtn onClick={onClick} key={i} keyboardTile={tile}>
+          <KeyBtn
+            onClick={onClick}
+            key={i}
+            guessedArr={guessedData}
+            elsewhereArr={elsewhereData}
+            failedArr={failedData}
+            keyboardTile={tile}
+          >
             {tile}
           </KeyBtn>
         ))}

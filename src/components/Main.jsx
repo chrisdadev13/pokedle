@@ -33,7 +33,6 @@ const Main = () => {
   ];
 
   const [name, setName] = useState([]);
-  const [playable, setPlayable] = useState(false);
 
   const [difficulty, setDifficulty] = useState(5);
 
@@ -55,6 +54,10 @@ const Main = () => {
   const [userPlay, setPlay] = useState(
     Array.from({ length: difficulty }).fill("")
   );
+
+  const [guessed, setGuessed] = useState([]);
+  const [elsewhere, setElsewhere] = useState([]);
+  const [failed, setFailed] = useState([]);
 
   const addLetter = (letter) => {
     setTile((prev) =>
@@ -152,10 +155,28 @@ const Main = () => {
           setWinner(true);
           setGameOver(true);
         }
+        tiles[currentRow].forEach((tile) => {
+          if (tile.status === "guessed") {
+            if (!guessed.some((n) => n === tile.space))
+              setGuessed((prev) => [...prev, tile.space]);
+          } else if (tile.status === "elsewhere") {
+            if (!elsewhere.some((n) => n === tile.space))
+              setElsewhere((prev) => [...prev, tile.space]);
+          } else if (tile.status === "fail") {
+            if (!failed.some((n) => n === tile.space))
+              setFailed((prev) => [...prev, tile.space]);
+          }
+        });
         return _play;
       })
     );
   };
+
+  useEffect(() => {
+    console.log(guessed);
+    console.log(elsewhere);
+    console.log(failed);
+  }, [guessed, elsewhere, failed]);
 
   const handleEnter = () => {
     createParallel();
@@ -217,7 +238,13 @@ const Main = () => {
             ""
           )}
           <KeyboardContainer>
-            <KeysGrid keyboard={KEYBOARD} onClick={handleKeyClick} />
+            <KeysGrid
+              keyboard={KEYBOARD}
+              guessedData={guessed}
+              elsewhereData={elsewhere}
+              failedData={failed}
+              onClick={handleKeyClick}
+            />
           </KeyboardContainer>
         </>
       )}
