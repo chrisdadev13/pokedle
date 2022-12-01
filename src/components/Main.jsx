@@ -172,12 +172,6 @@ const Main = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(guessed);
-    console.log(elsewhere);
-    console.log(failed);
-  }, [guessed, elsewhere, failed]);
-
   const handleEnter = () => {
     createParallel();
     evaluateParallels();
