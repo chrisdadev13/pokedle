@@ -9,7 +9,7 @@ import FinalMessage from "./utils/FinalMessage";
 
 const GameContainer = styled.div`
   width: 100vw;
-  height: 60vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,6 +220,20 @@ const Main = () => {
       ) : (
         <>
           <Header />
+          {gameOver === true && winner === false ? (
+            <div
+              style={{
+                width: "full",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h3>{name.join("").toUpperCase()}</h3>
+            </div>
+          ) : (
+            <p>{""}</p>
+          )}
           <GameContainer>
             <TilesGrid tiles={tiles} difficulty={difficulty} />
           </GameContainer>
