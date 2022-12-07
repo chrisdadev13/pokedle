@@ -10,6 +10,8 @@ import FinalMessage from "./utils/FinalMessage";
 const GameContainer = styled.div`
   width: 100vw;
   height: 50vh;
+  margin-top: 20px;
+  margin-bottom: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;

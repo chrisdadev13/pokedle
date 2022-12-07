@@ -13,7 +13,7 @@ const Message = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  margin-top: -20px;
+  margin-top: -70px;
   margin-left: auto;
   margin-right: auto;
   cursor: pointer;
