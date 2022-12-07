@@ -89,7 +89,7 @@ const Main = () => {
         });
       })
     );
-    setCol(currentCol >= 0 ? currentCol - 1 : (currentCol = currentCol));
+    setCol(currentCol >= 0 ? currentCol - 1 : currentCol);
   };
 
   const isValidLetter = (key) => {
@@ -148,6 +148,21 @@ const Main = () => {
     }
   };
 
+  const changeKeyColor = (tiles) => {
+    tiles[currentRow].forEach((tile) => {
+      if (tile.status === "guessed") {
+        if (!guessed.some((n) => n === tile.space))
+          setGuessed((prev) => [...prev, tile.space]);
+      } else if (tile.status === "elsewhere") {
+        if (!elsewhere.some((n) => n === tile.space))
+          setElsewhere((prev) => [...prev, tile.space]);
+      } else if (tile.status === "fail") {
+        if (!failed.some((n) => n === tile.space))
+          setFailed((prev) => [...prev, tile.space]);
+      }
+    });
+  };
+
   const evaluateParallels = () => {
     setPlay((prev) =>
       prev.map((arr, i) => {
@@ -157,18 +172,7 @@ const Main = () => {
           setWinner(true);
           setGameOver(true);
         }
-        tiles[currentRow].forEach((tile) => {
-          if (tile.status === "guessed") {
-            if (!guessed.some((n) => n === tile.space))
-              setGuessed((prev) => [...prev, tile.space]);
-          } else if (tile.status === "elsewhere") {
-            if (!elsewhere.some((n) => n === tile.space))
-              setElsewhere((prev) => [...prev, tile.space]);
-          } else if (tile.status === "fail") {
-            if (!failed.some((n) => n === tile.space))
-              setFailed((prev) => [...prev, tile.space]);
-          }
-        });
+        changeKeyColor(tiles);
         return _play;
       })
     );
